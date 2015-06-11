@@ -1,0 +1,21 @@
+Конспект с лекции в среду:
+1) открыть 2 вкладки
+2) по одной кликаю
+3) а вторая??
+
+Разбить слона на бифштексы?
+1) POST для создания новой игры
+1.1) написать фукнцию doRequest() которая принимает на вход МЕТОД (GET, POST, PUT), url, data, headers, callbackOnSuccess.
+var x = new XMLHttpRequest;
+x
+x...
+x.addEventListener('rsc', function() {
+ if (e.readyState === x.DONE) {
+    callback();
+ }
+});
+2) websockets, open connection, message processing (begin from Add and Remove)
+3) command begin game, both gamers should do POST request about their status (user ready or not)
+4) localStorage state: moves[], currentPlayer, gameId, playerId
+5) в слушателе на ячейках если сейчас наш год, выполняем POST,
+6) по желанию: можно добавить защиту от мультиклика (блокировать поле после нажатия по полю)
