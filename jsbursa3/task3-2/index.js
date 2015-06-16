@@ -1,22 +1,19 @@
-(function appSimpleAJAX(){
+(function appSimpleAJAX() {
   'use strict';
   var main = function main() {
     var get = document.querySelector('.get');
     var post = document.querySelector('.post');
     var weird = document.querySelector('.weird');
-    var url = 'https://cors-test.appspot.com/test';
+    var testURL = 'http://cors-test.appspot.com/test';
     var sendXHR = function sendXHR(method, url, container) {
       var xhr = new XMLHttpRequest();
       var handlerXHR = function handlerXHR() {
-        console.log(method, 'readyState: ', xhr.readyState);
         if (xhr.readyState === xhr.DONE) {
-          if (xhr.status == 200) {
-            var r = JSON.parse(xhr.responseText);
+          if (xhr.status === 200 && JSON.parse(xhr.responseText).status === 'ok') {
             container.style.fontWeight = 'bold';
             container.style.color = 'green';
-            container.textContent = r.status.toUpperCase();
-          }
-          else {
+            container.textContent = 'OK';
+          } else {
             container.style.fontWeight = 'bold';
             container.style.color = 'red';
             container.textContent = 'Failed';
@@ -28,9 +25,9 @@
       xhr.addEventListener('readystatechange', handlerXHR);
     };
 
-    sendXHR('GET', url, get);
-    sendXHR('POST', url, post);
-    sendXHR('WEIRD', url, weird);
+    sendXHR('GET', testURL, get);
+    sendXHR('POST', testURL, post);
+    sendXHR('WEIRD', testURL, weird);
   };
   window.addEventListener('load', main);
 }());
