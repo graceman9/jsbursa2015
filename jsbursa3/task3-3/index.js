@@ -31,7 +31,7 @@
         for (j = 0; j < count; j++) {
           cell = document.createElement('div');
           cell.classList.add('cell');
-          cell.setAttribute('data-idx', idx);
+          cell.setAttribute('data-idx', idx.toString());
           idx++;
           row.appendChild(cell);
         }
@@ -39,24 +39,26 @@
     }
     function handlerFieldClick(e) {
       var cell = e.target;
-      if (!cell.classList.contains('cell') || cell.classList.contains(X) || cell.classList.contains(O)) {
+      if (!cell.classList.contains('cell') || cell.classList.contains('x') || cell.classList.contains('o')) {
         return false;
       }
       xhrRequest('POST', gameUrls.move, {move: cell.getAttribute('data-idx')}, [
           {'name': 'Game-ID', 'value': yourId},
           {'name': 'Player-ID', 'value': playerId}
         ],
+        /**
+         * @param {{win:string}} response
+         */
         function hSuccess(response) {
           if (response.win) {
             setStatusText(mainStatusMessageDIV, 'Игра выиграна ' + response.win);
-            return;
           }
           //cell.classList.add(); // TODO..............
         },
         function hFail() {
         });
       e.stopPropagation();
-    };
+    }
     function disableButton(btn) {
       btn.setAttribute('disabled', 'disabled');
     }
@@ -134,6 +136,9 @@
     function handleBtnCreateGame() {
       disableButton(createGameBTN);
       xhrRequest('POST', gameUrls.newGame, null, null,
+        /**
+         * @param {{yourId:int}} response
+         */
         function hSuccess(response) {
           yourId = response.yourId;
           ws.send(JSON.stringify({register: yourId}));
@@ -143,7 +148,7 @@
           enableButton(createGameBTN);
         });
     }
-    function handleItemClick(e) {
+    function handleListItemClick(e) {
       if (e.target.nodeName === 'LI') {
         yourId = e.target.getAttribute('data-id');
         ws.send(JSON.stringify({register: yourId}));
@@ -151,7 +156,8 @@
     }
     ws.addEventListener('message', handleListWS);
     createGameBTN.addEventListener('click', handleBtnCreateGame);
-    existingGamesUL.addEventListener('click', handleItemClick);
+    existingGamesUL.addEventListener('click', handleListItemClick);
+    field.addEventListener('click', handlerFieldClick);
   };
   window.addEventListener('load', main);
 }());
