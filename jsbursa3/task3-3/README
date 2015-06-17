@@ -19,3 +19,4 @@ x.addEventListener('rsc', function() {
 4) localStorage state: moves[], currentPlayer, gameId, playerId
 5) в слушателе на ячейках если сейчас наш год, выполняем POST,
 6) по желанию: можно добавить защиту от мультиклика (блокировать поле после нажатия по полю)
+
