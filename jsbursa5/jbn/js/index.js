@@ -40,19 +40,12 @@
           if (state.items) {
             return;
           }
-          state.items = {};
           state.order = {};
-          $.each(items, function(idx, item) {
-            if (!state.items[item.status]) {
-              state.items[item.status] = [];
-            }
-            state.items[item.status].push(item);
-          });
-          $.each(items, function(idx, item) {
-            if (!state.order[item.status]) {
-              state.order[item.status] = [];
-            }
-            state.order[item.status].push({id: +item.id, idx: idx});
+          state.items = _.groupBy(items, 'status');
+          $.each(state.items, function(status, itemsGrouped) {
+            state.order[status] = _.map(itemsGrouped, function(item, idx) {
+              return {id: +item.id, idx: idx};
+            });
           });
           console.debug('[DEBUG] StateManager initialized, state: ', state);
           this._saveState();
@@ -70,11 +63,11 @@
         };
 
         StateManager.prototype.render = function render(uls) {
-          uls.each(function() {
+          uls.each(function ulsEachHandler() {
             $(this).empty();
           });
-          $.each(state.items, function(i, items) {
-            $.each(items, function(k, item) {
+          $.each(state.items, function stateItemsEachHandler(i, items) {
+            $.each(items, function itemsEachHandler(k, item) {
               var ul = uls.eq(statusMap[item.status]);
               var h3 = $('<h3>').text(item.name);
               var h4 = $('<h4>').text(item.phone);
@@ -117,22 +110,22 @@
 
     $.get(window.url, function getSuccess(response) {
       _debugStatuses(response);
-      uls.each(function() {
+      uls.each(function ulsEachHandler() {
         var ul = $(this);
         var other = uls.not(ul);
-        var other_uls = [];
+        var otherUls = [];
         var connectWith;
         if (ul.data('type') !== 'removed') {
-          other.each(function() {
+          other.each(function otherEachHandler() {
             var selector = $(this).attr('id');
-            other_uls.push('#' + selector);
+            otherUls.push('#' + selector);
           });
         }
-        connectWith = other_uls.join(',');
+        connectWith = otherUls.join(',');
         console.debug('[DEBUG] connectWith:', ul.get(0), connectWith);
         ul.sortable({
           connectWith: connectWith,
-          receive: function(event, ui) {
+          receive: function receiveHandler(event, ui) {
             var ul = $(this);
             var id = ui.item.data('id'); // student ID
             var oldStatus = ui.sender.data('type');
