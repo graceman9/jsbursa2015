@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>jsbursa6 - angular</title>
+  <link rel="stylesheet" href="bower_components/jqueryui/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="bower_components/jqueryui/themes/smoothness/theme.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="jsbursa5.css">
+</head>
+<body ng-app="jsbursa">
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="row" ng-controller="jsbursaController">
+    <div class="col-md-2">
+      <h2>Directive 1</h2>
+      <draggable-list items="items1" id="hello"></draggable-list>
+    </div>
+    <div class="col-md-2">
+      <h2>Helper 1</h2>
+      <ul><li ng-repeat="item in items1"><h3>{{ ::item.name }}</h3><h4>{{ ::item.phone }}</h4></li></ul>
+    </div>
+    <div class="col-md-2">
+      <h2>Directive 2</h2>
+      <draggable-list items="items2"></draggable-list>
+    </div>
+    <div class="col-md-2">
+      <h2>Helper 2</h2>
+      <ul><li ng-repeat="item in items2"><h3>{{ ::item.name }}</h3><h4>{{ ::item.phone }}</h4></li></ul>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="bower_components/jqueryui/jquery-ui.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="bower_components/lodash/lodash.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
